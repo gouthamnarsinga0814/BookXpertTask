@@ -70,8 +70,3 @@ Graceful error handling for API failures, permissions, and data operations
 5. Click “Add Package” 5. Set up Firebase and configure your GoogleService-Info.plist
 6.Build and run on a real device or simulator.
  # That’s it!
-
-
-# 📄 License
-
-This project is open source and available under the MIT License.
