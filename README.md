@@ -67,6 +67,6 @@ Graceful error handling for API failures, permissions, and data operations
 <pre>```https://github.com/firebase/firebase-ios-sdk.git```</pre>
 4. Choose the version you want to install (Up to Next Major or Exact).
 5. Click “Add Package”
-6. Set up Firebase and configure your GoogleService-Info.plist
-7.Build and run on a real device or simulator.
+6. Set up Firebase and configure your GoogleService-Info.plist.
+7. Build and run on a real device or simulator.
  # That’s it!
