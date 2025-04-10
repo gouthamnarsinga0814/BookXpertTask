@@ -60,7 +60,16 @@ Input validations for user-generated content
 Graceful error handling for API failures, permissions, and data operations
 # 📦 Installation
 
-<pre> ```bash # Swift Package Manager Installation Guide 1. Open your Xcode project. 2. Navigate to: File > Add Packages... 3. Enter the package repository URL: https://github.com/google/GoogleSignIn-iOS and https://github.com/firebase/firebase-ios-sdk.git 4. Choose the version you want to install (Up to Next Major or Exact). 5. Click “Add Package” 5. Set up Firebase and configure your GoogleService-Info.plist 6.Build and run on a real device or simulator.  # That’s it! The package will be available in your project. ``` </pre>
+# Swift Package Manager Installation Guide 
+1. Open your Xcode project.
+2. Navigate to: File > Add Packages...
+3. Enter the package repository URL: 
+<pre>```https://github.com/google/GoogleSignIn-iOS```</pre>
+<pre>```https://github.com/firebase/firebase-ios-sdk.git```</pre>
+4. Choose the version you want to install (Up to Next Major or Exact).
+5. Click “Add Package” 5. Set up Firebase and configure your GoogleService-Info.plist
+6.Build and run on a real device or simulator.
+ # That’s it!
 
 
 # 📄 License
