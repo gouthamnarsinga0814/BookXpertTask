@@ -20,13 +20,13 @@ Selected image is displayed within the app.
 # 4. 🗃️ Core Data with API Integration
 Fetches data from: https://api.restful-api.dev/objects
 Stores and manages data using Core Data:
-Create
-Read
-Update
-Delete
-Includes:
-Error handling
-Validations
+. Create
+. Read
+. Update
+. Delete
+. Includes:
+. Error handling
+. Validations
 # 5. 🔔 Push Notifications (FCM)
 Sends a real-time push notification when an item is deleted.
 Notification includes details of the deleted item.
