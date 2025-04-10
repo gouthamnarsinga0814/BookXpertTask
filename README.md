@@ -10,15 +10,14 @@ An iOS application built using Swift that demonstrates core functionalities such
 Integrated Google Sign-In using Firebase Authentication.
 User information is securely stored in Core Data for offline access.
 # 2. 📄 PDF Viewer - Report
-Displays a remote PDF report from:
-https://fssservices.bookxpert.co/GeneratedPDF/Companies/nadc/2024-2025/BalanceSheet.pdf
-Utilizes native PDFKit or third-party libraries (e.g., PDFView) to render PDF within the app.
+Displays a remote PDF report
+Utilizes native PDFKit to render PDF within the app.
 # 3. 📷 Image Capture & Gallery Selection
 Option to capture an image using the device's camera.
 Option to pick an image from the gallery.
 Selected image is displayed within the app.
 # 4. 🗃️ Core Data with API Integration
-Fetches data from: https://api.restful-api.dev/objects
+Fetches data from API
 Stores and manages data using Core Data:
 . Create
 . Read
