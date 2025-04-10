@@ -17,7 +17,7 @@ Option to capture an image using the device's camera.
 Option to pick an image from the gallery.
 Selected image is displayed within the app.
 # 4. 🗃️ Core Data with API Integration
-Fetches data from API
+Fetches data from API and
 Stores and manages data using Core Data:
 . Create
 . Read
