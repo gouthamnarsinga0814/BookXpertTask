@@ -8,6 +8,8 @@
 import UIKit
 import Photos
 import AVFoundation
+import Firebase
+import GoogleSignIn
 
 class ImagePickerViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
@@ -20,7 +22,43 @@ class ImagePickerViewController: UIViewController, UIImagePickerControllerDelega
 
         // Do any additional setup after loading the view.
         self.title = "Select Image"
+        // Setup right bar button item
+        let signOutIcon = UIImage(systemName: "power.circle")
+        let signOutButton = UIBarButtonItem(image: signOutIcon, style: .plain, target: self, action: #selector(signOut))
+        navigationItem.rightBarButtonItem = signOutButton
         setupUI()
+    }
+    
+    @objc func signOut() {
+        let alert = UIAlertController(
+            title: "Sign Out",
+            message: "Are you sure you want to sign out?",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        alert.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { _ in
+            self.signOutUser()
+        }))
+        
+        self.present(alert, animated: true)
+    }
+    
+    func signOutUser() {
+        // Firebase sign out
+        do {
+            try Auth.auth().signOut()
+            print("Firebase user signed out")
+        } catch let error {
+            print("Error signing out from Firebase: \(error.localizedDescription)")
+        }
+        
+        // Google sign out
+        GIDSignIn.sharedInstance.signOut()
+        print("Google user signed out")
+        let loginVC = ViewController()
+        navigationController?.pushViewController(loginVC, animated: true)
     }
     
     private func setupUI() {

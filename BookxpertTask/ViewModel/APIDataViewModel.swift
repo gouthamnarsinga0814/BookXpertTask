@@ -15,7 +15,7 @@ class APIDataViewModel {
             guard let models = models else { return }
             DispatchQueue.main.async {
                 models.forEach {
-                    CoreDataManager.shared.saveItem(id: $0.id, name: $0.name, createdAt: Date())
+                    CoreDataManager.shared.saveItem(id: $0.id, name: $0.name, data: $0.data ?? [:], createdAt: Date())
                 }
                 self?.items = CoreDataManager.shared.fetchItems()
                 completion()

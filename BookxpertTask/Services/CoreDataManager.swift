@@ -56,11 +56,18 @@ class CoreDataManager {
         }
     }
     
-    func saveItem(id: String, name: String, createdAt: Date) {
+    func saveItem(id: String, name: String, data: [String: CodableValue], createdAt: Date) {
            let newItem = APIItem(context: context)
            newItem.id = id
            newItem.name = name
            newItem.createdAt = createdAt
+        
+        // Convert CodableValue to plain [String: Any]
+           let plainData = convertCodableValueDictToPlain(data)
+           if let jsonData = try? JSONSerialization.data(withJSONObject: plainData, options: []) {
+               newItem.data = jsonData
+           }
+        
            saveContext()
        }
 
@@ -90,5 +97,18 @@ class CoreDataManager {
         } catch {
             print("Saving Core Data failed: \(error)")
         }
+    }
+    
+    func convertCodableValueDictToPlain(_ input: [String: CodableValue]) -> [String: Any] {
+        var output: [String: Any] = [:]
+        for (key, value) in input {
+            switch value {
+            case .string(let str): output[key] = str
+            case .int(let i): output[key] = i
+            case .double(let d): output[key] = d
+            case .dictionary(let dict): output[key] = convertCodableValueDictToPlain(dict)
+            }
+        }
+        return output
     }
 }

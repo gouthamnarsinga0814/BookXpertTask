@@ -97,14 +97,48 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     // Swipe to Delete
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
-                   forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let item = viewModel.items[indexPath.row]
-            viewModel.deleteItem(item)
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
+//                   forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            let item = viewModel.items[indexPath.row]
+//            viewModel.deleteItem(item)
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//            }
+//        }
+//    }
+    
+    // MARK: - Swipe to Delete with Alert Confirmation
+
+       func tableView(_ tableView: UITableView,
+                      trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
+       -> UISwipeActionsConfiguration? {
+
+           let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completionHandler in
+
+               guard let self = self else { return }
+
+               // Show confirmation alert
+               let alert = UIAlertController(title: "Confirm Delete",
+                                             message: "Are you sure you want to delete \"\(self.viewModel.items[indexPath.row].name ?? "")\"?",
+                                             preferredStyle: .alert)
+
+               alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+                   completionHandler(false)
+               }))
+
+               alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                   let item = self.viewModel.items[indexPath.row]
+                   self.viewModel.deleteItem(item)
+                   DispatchQueue.main.async {
+                       self.tableView.reloadData()
+                   }
+                   completionHandler(true)
+               }))
+
+               self.present(alert, animated: true)
+           }
+
+           return UISwipeActionsConfiguration(actions: [deleteAction])
+       }
 }

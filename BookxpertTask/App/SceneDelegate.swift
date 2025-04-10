@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import GoogleSignIn
+import Firebase
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -22,9 +24,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         window.overrideUserInterfaceStyle = .unspecified
-        let loginVC = ViewController()
-        let navController = UINavigationController(rootViewController: loginVC)
         
+        var loginVC = UIViewController()
+        if Auth.auth().currentUser != nil {
+            loginVC = HomeViewController()
+        } else {
+            loginVC = ViewController()
+        }
+        let navController = UINavigationController(rootViewController: loginVC)
         window.rootViewController = navController
         self.window = window
         window.makeKeyAndVisible()
