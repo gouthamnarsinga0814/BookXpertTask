@@ -11,6 +11,18 @@ class HomeViewController: UIViewController {
     
     private let viewModel = APIDataViewModel()
     private var tableView = UITableView()
+    private var sideMenuTableView = UITableView()
+    private let sideMenuWidth: CGFloat = 250
+    private var isSideMenuVisible = false
+    private var menuContainer = UIView()
+    private var menuItems = ["PDF Viewer", "Image Picker", "Notification Settings"]
+    
+    private let notificationSwitch: UISwitch = {
+        let toggle = UISwitch()
+        toggle.isOn = false
+        return toggle
+    }()
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,15 +31,14 @@ class HomeViewController: UIViewController {
         self.title = "Home"
         view.backgroundColor = .white
         navigationItem.hidesBackButton = true
-        // Setup right bar button item
-        let pdfIcon = UIImage(systemName: "book")
-        let pdfButton = UIBarButtonItem(image: pdfIcon, style: .plain, target: self, action: #selector(openPDF))
-        navigationItem.rightBarButtonItem = pdfButton
         
         // Setup left bar button item
-        let galleryIcon = UIImage(systemName: "folder.badge.plus")
-        let galleryButton = UIBarButtonItem(image: galleryIcon, style: .plain, target: self, action: #selector(openGallery))
+        let galleryIcon = UIImage(systemName: "line.3.horizontal")
+        let galleryButton = UIBarButtonItem(image: galleryIcon, style: .plain, target: self, action: #selector(toggleSideMenu))
         navigationItem.leftBarButtonItem = galleryButton
+        
+        notificationSwitch.isOn = UserDefaults.standard.bool(forKey: "notificationsEnabled")
+        notificationSwitch.addTarget(self, action: #selector(didToggleNotificationSwitch(_:)), for: .valueChanged)
         
         setupTableView()
        
@@ -45,21 +56,58 @@ class HomeViewController: UIViewController {
                 self.tableView.reloadData()
             }
         }
-    }
-    
-    @objc func openGallery() {
-        let gallery = ImagePickerViewController()
-        navigationController?.pushViewController(gallery, animated: true)
-    }
-    
-    @objc func openPDF() {
-        guard let pdfURL = URL(string: Constants.pdfUrl) else {
-            print("PDF not found")
-            return
-        }
         
-        let pdfVC = PDFViewerViewController(pdfURL: pdfURL)
-        navigationController?.pushViewController(pdfVC, animated: true)
+        // Side Menu
+        sideMenuTableView.frame = CGRect(x: -250, y: 0, width: 250, height: view.frame.height)
+        sideMenuTableView.register(UITableViewCell.self, forCellReuseIdentifier: "menu")
+        sideMenuTableView.delegate = self
+        sideMenuTableView.dataSource = self
+        sideMenuTableView.backgroundColor = .systemGray6
+        view.addSubview(sideMenuTableView)
+        
+    }
+    
+    func setupSideMenuToggle() {
+        let menuButton = UIBarButtonItem(title: "Menu", style: .plain, target: self, action: #selector(toggleSideMenu))
+        navigationItem.leftBarButtonItem = menuButton
+    }
+    
+    @objc func toggleSideMenu() {
+        UIView.animate(withDuration: 0.3) {
+            self.isSideMenuVisible.toggle()
+            self.sideMenuTableView.frame.origin.x = self.isSideMenuVisible ? 0 : -250
+        }
+    }
+    
+    @objc func didToggleNotificationSwitch(_ sender: UISwitch) {
+        if sender.isOn {
+            requestNotificationPermission()
+        } else {
+            UserDefaults.standard.set(false, forKey: "notificationsEnabled")
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        }
+    }
+    
+    func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+            DispatchQueue.main.async {
+                UserDefaults.standard.set(granted, forKey: "notificationsEnabled")
+                if granted {
+                    self.scheduleTestNotification()
+                } else {
+                    self.notificationSwitch.setOn(false, animated: true)
+                }
+            }
+        }
+    }
+    
+    func scheduleTestNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Test"
+        content.body = "Notifications are enabled."
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let request = UNNotificationRequest(identifier: "testNotification", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request)
     }
 
     /*
@@ -83,11 +131,19 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.items.count
+        return tableView == sideMenuTableView ? menuItems.count : viewModel.items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        if tableView == sideMenuTableView {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "menu", for: indexPath)
+            cell.textLabel?.textColor = .black
+            cell.textLabel?.text = menuItems[indexPath.row]
+            if indexPath.row == 2 {
+                cell.accessoryView = notificationSwitch
+            }
+            return cell
+        }
         let item = viewModel.items[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.textColor = .black
@@ -107,6 +163,24 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 //            }
 //        }
 //    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == sideMenuTableView {
+            toggleSideMenu()
+            guard let pdfURL = URL(string: Constants.pdfUrl) else {
+                print("PDF not found")
+                return
+            }
+            switch indexPath.row {
+            case 0:
+                navigationController?.pushViewController(PDFViewerViewController(pdfURL: pdfURL), animated: true)
+            case 1:
+                navigationController?.pushViewController(ImagePickerViewController(), animated: true)
+            default:
+                break
+            }
+        }
+    }
     
     // MARK: - Swipe to Delete with Alert Confirmation
 
