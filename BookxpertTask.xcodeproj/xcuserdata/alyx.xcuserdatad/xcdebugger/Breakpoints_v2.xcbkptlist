@@ -7,33 +7,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EA9639C0-E7F6-4ABB-8CC8-315726A42D5F"
+            uuid = "4A3BC959-F989-4A23-8ABE-626BFDC23BA1"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BookxpertTask/Services/NetworkService.swift"
+            filePath = "BookxpertTask/Services/ItemManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "fetchAPIData(completion:)"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "sendDeletionNotification(for:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F822C0DA-65F3-43E1-946F-769BFE0F10D3"
+            uuid = "4D7DA0C8-54A1-4D3B-8BDA-4316B878C939"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BookxpertTask/ViewModel/APIDataViewModel.swift"
+            filePath = "BookxpertTask/Services/ItemManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "fetchLocalData()"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "deleteItem(withId:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4D7DA0C8-54A1-4D3B-8BDA-4316B878C939 - 7f199d503cc82898"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BookxpertTask.ItemManager.deleteItem(withId: Swift.String) -&gt; ()"
+                  moduleName = "BookxpertTask"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alyx/Documents/ios/BookXpertTask/BookxpertTask/Services/ItemManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "4D7DA0C8-54A1-4D3B-8BDA-4316B878C939 - b025acf8af3a51a7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (BookxpertTask.APIItem) -&gt; Swift.Bool in BookxpertTask.ItemManager.deleteItem(withId: Swift.String) -&gt; ()"
+                  moduleName = "BookxpertTask"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alyx/Documents/ios/BookXpertTask/BookxpertTask/Services/ItemManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "86">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

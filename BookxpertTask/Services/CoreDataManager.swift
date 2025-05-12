@@ -7,6 +7,7 @@
 
 import CoreData
 import UIKit
+import UserNotifications
 
 class CoreDataManager {
     static let shared = CoreDataManager()
@@ -82,6 +83,7 @@ class CoreDataManager {
     }
     
     func deleteItem(item: APIItem) {
+        sendDeletionNotification(for: item)
         context.delete(item)
         saveContext()
     }
@@ -110,5 +112,21 @@ class CoreDataManager {
             }
         }
         return output
+    }
+    
+    private func sendDeletionNotification(for item: APIItem) {
+        let content = UNMutableNotificationContent()
+        content.title = "Item Deleted"
+        content.body = "\(item.name ?? "") deleted successfully"
+        content.sound = .default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Failed to schedule notification: \(error.localizedDescription)")
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ import CoreData
 import FirebaseMessaging
 import GoogleSignIn
 import Firebase
+import UserNotifications
 
 
 @main
@@ -20,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
+        registerForPushNotifications()
         
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
             if error != nil || user == nil {
@@ -53,12 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 UIApplication.shared.registerForRemoteNotifications()
             }
         }
-    }
-    
-    // MARK: MessagingDelegate Methods
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("FCM Token: \(fcmToken ?? "")")
-        // Send this token to your backend server
     }
     
     // MARK: UNUserNotificationDelegate Methods
